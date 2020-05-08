@@ -409,16 +409,13 @@ class Avalon(commands.Cog):
         await dialog.edit()
 
     async def stage_ending(self, game):
-        if game.vote_count > 4 or game.round_status.count("fail") > 2:
-            #紅方獲勝
-            game.stage = 2
-            await self.send_game_board(game)
-        else:
+        if game.vote_count < 5 and game.round_status.count("success") > 2 and game.total_player_count > 4:
             game.stage = 1
             await self.send_game_board(game)
             await self.stage_assassinate(game)  # 刺殺階段
-            game.stage = 2
-            await self.send_game_board(game)
+
+        game.stage = 2
+        await self.send_game_board(game)
 
     async def stage_restart(self, game):
         title = "遊戲結束，{}獲勝".format("藍方" if game.result == Faction.Arthur else "紅方")
