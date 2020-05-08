@@ -440,8 +440,6 @@ class Avalon(commands.Cog):
                 return True
             else:
                 return False
-        finally:
-            await dialog.close()
         
     async def game_loop(self, game):
         while game is not None:
